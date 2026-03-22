@@ -10,26 +10,35 @@ function App() {
 
   const go = (p) => setPage(p);
   const clearChat = () => setChat([]);
+  
+const sendMessage = async () => {
+  if (!message.trim()) return;
 
-  const sendMessage = async () => {
-    if (!message.trim()) return;
+  const updatedChat = [...chat, { role: "user", content: message }];
+  setChat(updatedChat);
+  setLoading(true);
 
-    const updatedChat = [...chat, { role: "user", content: message }];
-    setChat(updatedChat);
-    setLoading(true);
-
+  try {
     const res = await fetch("https://eduai-44we.onrender.com/chat", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: updatedChat }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message }),
     });
+
+    if (!res.ok) throw new Error("Server error");
 
     const data = await res.json();
 
     setChat([...updatedChat, { role: "assistant", content: data.reply }]);
-    setLoading(false);
-    setMessage("");
-  };
+  } catch (err) {
+    setChat([...updatedChat, { role: "assistant", content: "Error connecting to AI" }]);
+  }
+
+  setLoading(false);
+  setMessage("");
+};
 
   const Navbar = () => (
     <div className="nav">
