@@ -10,7 +10,7 @@ function App() {
 
   const go = (p) => setPage(p);
   const clearChat = () => setChat([]);
-  
+
 const sendMessage = async () => {
   if (!message.trim()) return;
 
@@ -24,7 +24,7 @@ const sendMessage = async () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ messages: updatedChat })
     });
 
     if (!res.ok) throw new Error("Server error");
