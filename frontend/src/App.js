@@ -18,7 +18,7 @@ function App() {
     setChat(updatedChat);
     setLoading(true);
 
-    const res = await fetch("https://eduai-44we.onrender.com", {
+    const res = await fetch("https://eduai-44we.onrender.com/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ messages: updatedChat }),
